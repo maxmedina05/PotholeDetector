@@ -1,20 +1,22 @@
-module.exports = function UserController() {
+module.exports = function UserController(userService) {
 
-  const users = [
-    {id: 0, name: 'Max Medina'},
-    {id: 1, name: 'Jose Perez'},
-    {id: 2, name: 'Juan Perez'}
-  ];
+  function addUser(req, res) {
+    userService.addUser(req.body);
+    res.json(req.body);
+  }
 
   function getUser(req, res) {
-
   }
 
   function getUsers(req, res) {
-    res.json(users);
+    userService.getUsers()
+      .then(function(users) {
+        res.json(users);
+      });
   }
 
   return {
+    addUser: addUser,
     getUsers: getUsers
   };
 };
