@@ -1,0 +1,30 @@
+{
+  "name": "pothole-detector-api",
+  "version": "1.0.0",
+  "description": "Pothole Detector API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxmedina05/pothole-detector-api.git"
+  },
+  "keywords": [
+    "Pothole",
+    "street",
+    "defect",
+    "speedbump"
+  ],
+  "author": "Max Medina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maxmedina05/pothole-detector-api/issues"
+  },
+  "homepage": "https://github.com/maxmedina05/pothole-detector-api#readme",
+  "dependencies": {
+    "body-parser": "1.18.0",
+    "dotenv": "4.0.0",
+    "express": "4.15.4",
+  }
+}
