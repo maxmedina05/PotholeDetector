@@ -14,7 +14,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/v1/api', express.static(__dirname + '/public/docs'));
 
-mongoose.connect(process.env.DB_CONN_STR);
+mongoose.connect(process.env.DB_CONN_STR, {
+  useMongoClient: true
+});
 
 app.get('/', function(req, res) {
   res.send('Hello World');

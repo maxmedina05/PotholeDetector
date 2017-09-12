@@ -8,23 +8,30 @@ module.exports = function UserService(User) {
       password: model.password
     });
 
-    return newUser.save(function(err) {
-      if (err) throw err;
-
-      return 1;
-    });
+    return newUser.save();
   }
 
-  function getUser() {
-
+  function getUser(userId) {
+    return User.findOne({ _id: userId }).exec();
   }
 
   function getUsers() {
     return User.find({}).exec();
   }
 
+  function updateUser(model) {
+
+  }
+
+  function deleteUser(userId) {
+    return User.remove({ _id: userId });
+  }
+
   return {
     addUser: addUser,
-    getUsers: getUsers
+    getUser: getUser,
+    getUsers: getUsers,
+    updateUser: updateUser,
+    deleteUser: deleteUser
   };
 };
