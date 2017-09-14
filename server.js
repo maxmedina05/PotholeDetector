@@ -7,6 +7,7 @@ const mongoose                  = require('mongoose');
 
 const app                       = express();
 const userModule                = require('./api/components/user/user.module');
+const authModule                = require('./api/components/authentication/auth.module');
 
 mongoose.Promise                = require('bluebird');
 
@@ -22,7 +23,8 @@ app.get('/', function(req, res) {
   res.send('Hello World');
 });
 
-userModule(app);
+app.use('/users', userModule);
+app.use('/auth', authModule);
 
 app.listen(PORT, function() {
   console.log(`Pothole Detector API listening on port ${PORT}`);

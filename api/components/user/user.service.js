@@ -1,4 +1,4 @@
-module.exports = function UserService(User) {
+const User = require('./user.model');
 
   function addUser(model) {
     var newUser = User({
@@ -27,11 +27,10 @@ module.exports = function UserService(User) {
     return User.remove({ _id: userId });
   }
 
-  return {
-    addUser: addUser,
-    getUser: getUser,
-    getUsers: getUsers,
-    updateUser: updateUser,
-    deleteUser: deleteUser
-  };
-};
+module.exports = {
+  addUser: addUser,
+  getUser: getUser,
+  getUsers: getUsers,
+  updateUser: updateUser,
+  deleteUser: deleteUser
+}
