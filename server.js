@@ -9,7 +9,7 @@ const app                       = express();
 const userModule                = require('./api/components/user/user.module');
 const authModule                = require('./api/components/authentication/auth.module');
 
-mongoose.Promise                = require('bluebird');
+mongoose.Promise                = Promise;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

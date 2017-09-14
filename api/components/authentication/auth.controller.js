@@ -7,13 +7,15 @@ function login(req, res) {
   }
 
   authService.login(user)
-    // .then(authUser => {
-    //   res.json({
-    //     success: true,
-    //     message: 'Login was successful'
-    //   });
-    // })
-    // .catch(err => handleError(err, res));
+    .then(answer => {
+      res.json({
+        success: true,
+        message: 'Login was successful',
+        data: answer.data,
+        authorization: answer.authorization
+      });
+    })
+    .catch(err => handleError(err, res));
 }
 
 function signup(req, res) {
