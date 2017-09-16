@@ -45,43 +45,23 @@
         }
       },
       "post": {
-        "description": "Creates a User",
-        "operationId": "addUser",
+        "description": "add a new user to the list",
         "parameters": [
           {
-            "name": "firstName",
+            "name": "user",
+            "description": "User properties",
             "in": "body",
-            "description": "The first name of the person that will be created",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "lastName",
-            "in": "body",
-            "description": "The last name of the person that will be created",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "email",
-            "in": "body",
-            "description": "The email of the person that will be created",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "body",
-            "description": "The password of the person that will be created",
-            "required": false,
-            "type": "string"
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/UsersResponse"
+              "$ref": "#/definitions/GeneralResponse"
             }
           },
           "default": {
@@ -98,6 +78,24 @@
     }
   },
   "definitions": {
+    "GeneralResponse": {
+      "required": [
+        "success",
+        "message",
+        "data"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    },
     "UsersResponse": {
       "required": [
         "success",
@@ -124,6 +122,27 @@
           "type": "string"
         }
       }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "first name"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "last name"
+        },
+        "email": {
+          "type": "string",
+          "description": "email address"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
     }
   }
 }
