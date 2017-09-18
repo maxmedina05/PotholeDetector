@@ -1,14 +1,23 @@
 const userService = require('./user.service');
 
+class GeneralResponse {
+  constructor(success, verb, data) {
+    this.success = success;
+    this.message = (verb === '') ? '' : this.buildSuccessMessage(verb);
+    this.data = data;
+  }
+
+  buildSuccessMessage(verb) {
+    return `User was ${verb} successfully!`;
+  }
+}
+
 function addUser(req, res) {
     let user = req.body;
 
     userService.addUser(user)
         .then(result => {
-            res.status(201).json({
-                success: true,
-                message: 'User was created successfully!'
-            });
+            res.status(201).json(new GeneralResponse(true, 'created', user));
         })
         .catch(err => handleError(err, res));
 }
@@ -17,10 +26,7 @@ function getUser(req, res) {
     let userId = req.params.userId;
     userService.getUser(userId)
         .then(user => {
-            res.json({
-                success: true,
-                data: user
-            });
+            res.json(new GeneralResponse(true, '', user));
         })
         .catch(err => handleError(err, res));
 }
@@ -28,7 +34,7 @@ function getUser(req, res) {
 function getUsers(req, res) {
     userService.getUsers()
         .then(function(users) {
-            res.json(users);
+            res.json(new GeneralResponse(true, '', users));
         });
 }
 
