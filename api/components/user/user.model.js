@@ -5,9 +5,10 @@ const UserSchema = new mongoose.Schema({
   lastName: String,
   email: { type: String, required: true, unique: true },
   password: String,
-  created: Date,
+  createdAt: { type: Date, default: Date.now },
+  createdBy: String,
   updated: Date,
-  updatedBy: String,
+  updatedBy: String
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -1,20 +1,18 @@
-const express                                 = require('express');
-const router                                  = express.Router();
-const userController                          = require('./user.controller');
+const express                           = require('express');
+const router                            = express.Router();
+const streetDefectController            = require('./street-defect.controller');
 
 /**
  * @swagger
  * definition:
- *   User:
+ *   StreetDefect:
  *     properties:
- *       firstName:
+ *       deviceName:
  *         type: string
- *       lastName:
- *         type: string
- *       email:
- *         type: integer
- *       password:
- *         type: string
+ *       latitude:
+ *         type: number
+ *       longitude:
+ *         type: number
 
  *   GeneralResponse:
  *     required:
@@ -42,16 +40,16 @@ const userController                          = require('./user.controller');
 
 /**
  * @swagger
- * /api/users:
+ * /api/street-defects:
  *   get:
  *     tags:
- *       - Users
- *     description: Returns a list of users
+ *       - StreetDefects
+ *     description: Returns a list of streetDefects
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: An array of users
+ *         description: An array of streetDefects
  *         schema:
  *           $ref: '#/definitions/GeneralResponse'
  *       default:
@@ -59,29 +57,29 @@ const userController                          = require('./user.controller');
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/').get(userController.getUsers);
+router.route('/').get(streetDefectController.getStreetDefects);
 
 /**
  * @swagger
- * /api/users:
+ * /api/street-defects:
  *   post:
  *     tags:
- *       - Users
- *     description: add a new user
+ *       - StreetDefects
+ *     description: add a new street Defect
  *     parameters:
- *      - name: user
- *        description: User properties
+ *      - name: streetDefect
+ *        description: Street Defect properties
  *        in: body
  *        required: true
  *        schema:
- *         $ref: '#/definitions/User'
+ *         $ref: '#/definitions/StreetDefect'
  *     produces:
  *       - application/json
  *     consumes:
  *       - application/json
  *     responses:
  *       200:
- *         description: the new created user
+ *         description: the new street defect created
  *         schema:
  *           $ref: '#/definitions/GeneralResponse'
  *       default:
@@ -89,26 +87,26 @@ router.route('/').get(userController.getUsers);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/').post(userController.addUser);
+router.route('/').post(streetDefectController.addStreetDefect);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/street-defects/{streetDefectId}:
  *   get:
  *     tags:
- *       - Users
- *     description: Returns a specific user based on ObjectId
+ *       - StreetDefects
+ *     description: Returns a specific street defect based on ObjectId
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: userId
- *        description: The ObjectId of the user
+ *      - name: streetDefectId
+ *        description: The ObjectId of the street defect
  *        in: path
  *        type: string
  *        required: true
  *     responses:
  *       200:
- *         description: An array of users
+ *         description: An array of street defects
  *         schema:
  *           $ref: '#/definitions/GeneralResponse'
  *       default:
@@ -116,25 +114,25 @@ router.route('/').post(userController.addUser);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:userId').get(userController.getUser);
+router.route('/:streetDefectId').get(streetDefectController.getStreetDefect);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/street-defects/{streetDefectId}:
  *   put:
  *     tags:
- *       - Users
- *     description: Updates a specific user based on ObjectId
+ *       - StreetDefects
+ *     description: Updates a specific street defect based on ObjectId
  *     produces: application/json
  *     parameters:
- *      - name: userId
- *        description: The ObjectId of the user
+ *      - name: streetDefectId
+ *        description: The ObjectId of the street defect
  *        in: path
  *        type: string
  *        required: true
  *     responses:
  *       200:
- *         description: The updated user
+ *         description: The updated street defect
  *         schema:
  *           $ref: '#/definitions/GeneralResponse'
  *       default:
@@ -142,25 +140,25 @@ router.route('/:userId').get(userController.getUser);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:userId').put(userController.updateUser);
+router.route('/:streetDefectId').put(streetDefectController.updateStreetDefect);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/street-defects/{streetDefectId}:
  *   delete:
  *     tags:
- *       - Users
- *     description: Deletes a specific user based on ObjectId
+ *       - StreetDefects
+ *     description: Deletes a specific street defect based on ObjectId
  *     produces: application/json
  *     parameters:
- *      - name: userId
- *        description: The ObjectId of the user
+ *      - name: streetDefectId
+ *        description: The ObjectId of the street defect
  *        in: path
  *        type: string
  *        required: true
  *     responses:
  *       200:
- *         description: The user that was deleted
+ *         description: The street defect that was deleted
  *         schema:
  *           $ref: '#/definitions/GeneralResponse'
  *       default:
@@ -168,6 +166,6 @@ router.route('/:userId').put(userController.updateUser);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:userId').delete(userController.deleteUser);
+router.route('/:streetDefectId').delete(streetDefectController.deleteStreetDefect);
 
 module.exports = router;
