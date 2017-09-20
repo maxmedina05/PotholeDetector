@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 
 const PORT = process.env.PORT || 5099;
 const mongoose = require('mongoose');
@@ -23,6 +24,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+// Overriding methods for error handling
+app.use(methodOverride());
+
 // Setup API Documentation
 app.use('/v1/api', express.static(__dirname + '/public/docs'));
 app.get('/swagger.json', function(req, res) {
@@ -34,6 +38,12 @@ app.get('/swagger.json', function(req, res) {
 app.use('/auth', authModule);
 app.use('/api/users', userModule);
 app.use('/api/street-defects', streetDefectModule);
+
+// Error Handler
+app.use(function(err, req, res, next) {
+  console.error(err.message);
+  res.status(500).send(err);
+});
 
 app.listen(PORT, function() {
   console.log(`Pothole Detector API listening on port ${PORT}`);
