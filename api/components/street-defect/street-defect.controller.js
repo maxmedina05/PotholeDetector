@@ -1,41 +1,33 @@
-const streetDefectService = require('./street-defect.service');
-
-class GeneralResponse {
-  constructor(success, verb, data) {
-    this.success = success;
-    this.message = (verb === '') ? '' : this.buildSuccessMessage(verb);
-    this.data = data;
-  }
-
-  buildSuccessMessage(verb) {
-    return `Street Defect was ${verb} successfully!`;
-  }
-}
+const StreetDefect = require('./street-defect.model');
 
 function addStreetDefect(req, res) {
-    let streetDefect = req.body;
+  let model = req.body;
 
-    streetDefectService.addStreetDefect(streetDefect)
-        .then(result => {
-            res.status(201).json(new GeneralResponse(true, 'created', streetDefect));
-        })
-        .catch(err => handleError(err, res));
+  var newStreetDefect = StreetDefect(model);
+  newStreetDefect.save()
+    .then(result => {
+      res.status(201).json(ResponseHandler.generalResponse(true, 'created', streetDefect));
+    })
+    .catch(err => { throw ResponseHandler.errorResponse(err); });
 }
 
 function getStreetDefect(req, res) {
-    let streetDefectId = req.params.streetDefectId;
-    streetDefectService.getStreetDefect(streetDefectId)
-        .then(streetDefect => {
-            res.json(new GeneralResponse(true, '', streetDefect));
-        })
-        .catch(err => handleError(err, res));
+  let streetDefectId = req.params.streetDefectId;
+
+  StreetDefect.findOne({
+      _id: streetDefectId
+    }).exec()
+    .then(streetDefect => {
+      res.json(ResponseHandler.generalResponse(true, '', streetDefect));
+    })
+    .catch(err => { throw ResponseHandler.errorResponse(err); });
 }
 
 function getStreetDefects(req, res) {
-    streetDefectService.getStreetDefects()
-        .then(function(streetDefects) {
-            res.json(new GeneralResponse(true, '', streetDefects));
-        });
+  StreetDefect.find({}).exec()
+    .then(function(streetDefects) {
+      res.json(ResponseHandler.generalResponse(true, '', streetDefects));
+    });
 }
 
 function updateStreetDefect(req, res) {
@@ -43,28 +35,20 @@ function updateStreetDefect(req, res) {
 }
 
 function deleteStreetDefect(req, res) {
-    let streetDefectId = req.params.streetDefectId;
-    streetDefectService.deleteStreetDefect(streetDefectId)
-        .then(streetDefect => {
-          res.json(new GeneralResponse(true, 'deleted', streetDefect));
-        })
-        .catch(err => handleError(err, res));
-}
-
-function handleError(err, res) {
-    let error = {
-        success: false,
-        message: err.message || err
-    };
-
-    console.log(err.message || err);
-    res.json(error);
+  let streetDefectId = req.params.streetDefectId;
+  StreetDefect.remove({
+      _id: streetDefectId
+    })
+    .then(streetDefect => {
+      res.json(ResponseHandler.generalResponse(true, 'deleted', streetDefect));
+    })
+    .catch(err => { throw ResponseHandler.errorResponse(err); });
 }
 
 module.exports = {
-    addStreetDefect: addStreetDefect,
-    getStreetDefect: getStreetDefect,
-    getStreetDefects: getStreetDefects,
-    updateStreetDefect: updateStreetDefect,
-    deleteStreetDefect: deleteStreetDefect
+  addStreetDefect: addStreetDefect,
+  getStreetDefect: getStreetDefect,
+  getStreetDefects: getStreetDefects,
+  updateStreetDefect: updateStreetDefect,
+  deleteStreetDefect: deleteStreetDefect
 };
