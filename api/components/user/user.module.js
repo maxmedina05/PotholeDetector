@@ -93,16 +93,16 @@ router.route('/').post(userController.addUser);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/users/{objectId}:
  *   get:
  *     tags:
  *       - Users
- *     description: Returns a specific user based on ObjectId
+ *     description: Returns a specific user based on objectId
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: userId
- *        description: The ObjectId of the user
+ *      - name: objectId
+ *        description: The objectId of the user
  *        in: path
  *        type: string
  *        required: true
@@ -116,19 +116,19 @@ router.route('/').post(userController.addUser);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:userId').get(userController.getUser);
+router.route('/:objectId').get(userController.getUser);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/users/{objectId}:
  *   put:
  *     tags:
  *       - Users
- *     description: Updates a specific user based on ObjectId
+ *     description: Updates a specific user based on objectId
  *     produces: application/json
  *     parameters:
- *      - name: userId
- *        description: The ObjectId of the user
+ *      - name: objectId
+ *        description: The objectId of the user
  *        in: path
  *        type: string
  *        required: true
@@ -142,19 +142,19 @@ router.route('/:userId').get(userController.getUser);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:userId').put(userController.updateUser);
+router.route('/:objectId').put(userController.updateUser);
 
 /**
  * @swagger
- * /api/users/{userId}:
+ * /api/users/{objectId}:
  *   delete:
  *     tags:
  *       - Users
- *     description: Deletes a specific user based on ObjectId
+ *     description: Deletes a specific user based on objectId
  *     produces: application/json
  *     parameters:
- *      - name: userId
- *        description: The ObjectId of the user
+ *      - name: objectId
+ *        description: The objectId of the user
  *        in: path
  *        type: string
  *        required: true
@@ -168,6 +168,6 @@ router.route('/:userId').put(userController.updateUser);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:userId').delete(userController.deleteUser);
+router.route('/:objectId').delete(userController.deleteUser);
 
 module.exports = router;

@@ -17,9 +17,9 @@ function addUser(req, res) {
 }
 
 function getUser(req, res) {
-  let userId = req.params.userId;
+  let objectId = req.params.objectId;
   User.findOne({
-      _id: userId
+      _id: objectId
     }).exec()
     .then(user => {
       res.json(ResponseHandler.generalResponse(true, '', user));
@@ -36,16 +36,36 @@ function getUsers(req, res) {
 }
 
 function updateUser(req, res) {
+  let model = req.body;
 
+  let objectId = req.params.objectId;
+  User.findOne({ _id: objectId }).exec()
+    .then( userFound => {
+
+      userFound.firstName = model.firstName;
+      userFound.lastName = model.lastName;
+      userFound.email = model.email;
+
+      return userFound.save();
+    })
+    .then( savedUser => {
+      res.json(ResponseHandler.generalResponse(true, '', savedUser));
+    })
+    .catch(err => { throw ResponseHandler.errorResponse(err); } );
 }
 
 function deleteUser(req, res) {
-  let userId = req.params.userId;
+  let objectId = req.params.objectId;
   User.remove({
-      _id: userId
+      _id: objectId
     })
-    .then(user => {
-      res.json(ResponseHandler.generalResponse(true, 'deleted', user));
+    .then(code => {
+      if(code.result.n == 0) {
+        res.json(ResponseHandler.alreadyDeletedResponse(true, code.result));
+      }
+      else {
+        res.json(ResponseHandler.generalResponse(true, 'deleted', code));
+      }
     })
     .catch(err => { throw ResponseHandler.errorResponse(err); });
 }

@@ -7,6 +7,15 @@ function generalResponse(success, verb, data) {
   return response;
 }
 
+function alreadyDeletedResponse(success, data) {
+  let response = {
+    success: success,
+    message: `User was already deleted!`,
+    data: data
+  };
+  return response;
+}
+
 function errorResponse(err) {
   let response = {
     success: false,
@@ -17,5 +26,6 @@ function errorResponse(err) {
 
 module.exports = {
   generalResponse: generalResponse,
-  errorResponse: errorResponse
+  errorResponse: errorResponse,
+  alreadyDeletedResponse: alreadyDeletedResponse
 };
