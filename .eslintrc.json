@@ -1,0 +1,20 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "script",
+    "ecmaFeatures": {}
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "camelcase": 2,
+    "quotes": ["error", "single"],
+    "no-debugger": 2,
+    "no-undef": 2,
+    "no-undefined": 2,
+    "no-var": 2
+
+  },
+  "env": {
+    "node": true
+  }
+}

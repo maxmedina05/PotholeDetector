@@ -22,6 +22,10 @@ function signup(newUser) {
 
 }
 
+function changePassword(){
+  
+}
+
 function buildAuthorization(username, password) {
   let authorization = username + ':' + password;
   authorization = new Buffer(authorization).toString('base64');

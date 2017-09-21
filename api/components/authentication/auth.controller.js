@@ -1,4 +1,5 @@
-const authService = require('./auth.service');
+const User = require('../user/user.model');
+const ResponseHandler = require('../helpers/response-handler');
 
 function login(req, res) {
   let user = {
@@ -6,30 +7,35 @@ function login(req, res) {
     password: req.body.password
   }
 
-  authService.login(user)
-    .then(answer => {
-      res.json({
-        success: true,
-        message: 'Login was successful',
-        data: answer.data,
-        authorization: answer.authorization
-      });
+  User.findOne({
+      email: user.email
+    }).exec()
+    .then(userFound => {
+      if (user.password === userFound.password) {
+        res.json({
+          success: true,
+          message: 'Login was successful',
+          data: userFound,
+          authorization: buildAuthorization(userFound.email, userFound.password)
+        });
+      } else {
+        res.json(ResponseHandler.errorResponse('Login was not successful'));
+      }
+
     })
-    .catch(err => handleError(err, res));
+    .catch(err => {
+      res.status(500).json(ResponseHandler.errorResponse(err));
+    });
 }
 
 function signup(req, res) {
 
 }
 
-function handleError(err, res) {
-    let error = {
-        success: false,
-        message: err.message || err
-    };
-
-    console.log(err.message || err);
-    res.json(error);
+function buildAuthorization(username, password) {
+  let authorization = username + ':' + password;
+  authorization = new Buffer(authorization).toString('base64');
+  return authorization;
 }
 
 module.exports = {

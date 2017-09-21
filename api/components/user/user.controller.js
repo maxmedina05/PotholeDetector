@@ -14,6 +14,7 @@ function addUser(req, res) {
     .then(result =>
       res.status(201).json(ResponseHandler.generalResponse(true, 'created', result))
     )
+
     .catch(err => {
       res.status(500).json(ResponseHandler.errorResponse(err));
     });
@@ -43,19 +44,21 @@ function getUsers(req, res) {
 }
 
 function updateUser(req, res) {
-  let query = {_id: req.params.objectId };
+  let query = {
+    _id: req.params.objectId
+  };
   let update = {
     firstName: req.body.firstName,
-    lastName : req.body.lastName
+    lastName: req.body.lastName
   };
 
   User.findOneAndUpdate(query, update).exec()
-  .then(result => {
-    res.json(ResponseHandler.generalResponse(true, '', result));
-  })
-  .catch(err => {
-    res.status(500).json(ResponseHandler.errorResponse(err));
-  });
+    .then(result => {
+      res.json(ResponseHandler.generalResponse(true, '', result));
+    })
+    .catch(err => {
+      res.status(500).json(ResponseHandler.errorResponse(err));
+    });
 }
 
 function deleteUser(req, res) {
@@ -66,7 +69,7 @@ function deleteUser(req, res) {
       if (code.result.n == 0) {
         res.json(ResponseHandler.alreadyDeletedResponse(true, code.result));
       } else {
-        res.json(ResponseHandler.generalResponse(true, 'deleted', code));
+        res.status(204).json(ResponseHandler.generalResponse(true, 'deleted', code));
       }
     })
     .catch(err => {

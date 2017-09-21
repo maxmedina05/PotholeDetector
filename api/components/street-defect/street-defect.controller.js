@@ -2,8 +2,8 @@ const StreetDefect = require('./street-defect.model');
 const ResponseHandler = require('../helpers/response-handler');
 
 function addStreetDefect(req, res) {
-  var newStreetDefect = StreetDefect(req.body);
-
+  let streetDefect = req.body;
+  var newStreetDefect = StreetDefect(streetDefect);
   newStreetDefect.save()
     .then(result => {
       res.status(201).json(ResponseHandler.generalResponse(true, 'created', streetDefect));
