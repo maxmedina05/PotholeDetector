@@ -12,6 +12,11 @@ const userModule = require('./api/components/user/user.module');
 const authModule = require('./api/components/authentication/auth.module');
 const streetDefectModule = require('./api/components/street-defect/street-defect.module');
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  // application specific logging, throwing an error, or other logic here
+});
+
 // Database configuration
 mongoose.Promise = Promise;
 mongoose.connect(process.env.DB_CONN_STR, {
