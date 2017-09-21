@@ -2,27 +2,24 @@ const StreetDefect = require('./street-defect.model');
 const ResponseHandler = require('../helpers/response-handler');
 
 function addStreetDefect(req, res) {
-  let model = req.body;
-  var newStreetDefect = StreetDefect(model);
+  var newStreetDefect = StreetDefect(req.body);
 
   newStreetDefect.save()
     .then(result => {
-      // res.status(201).json(ResponseHandler.generalResponse(true, 'created', streetDefect));
-      res.status(201).json(result);
+      res.status(201).json(ResponseHandler.generalResponse(true, 'created', streetDefect));
     })
-    .catch(err => { throw ResponseHandler.errorResponse(err); });
+    .catch(err => { res.status(500).json(ResponseHandler.errorResponse(err)); });
 }
 
 function getStreetDefect(req, res) {
-  let streetDefectId = req.params.streetDefectId;
 
   StreetDefect.findOne({
-      _id: streetDefectId
+      _id: req.params.objectId
     }).exec()
     .then(streetDefect => {
       res.json(ResponseHandler.generalResponse(true, '', streetDefect));
     })
-    .catch(err => { throw ResponseHandler.errorResponse(err); });
+    .catch(err => { res.status(500).json(ResponseHandler.errorResponse(err)); });
 }
 
 function getStreetDefects(req, res) {
@@ -32,19 +29,32 @@ function getStreetDefects(req, res) {
     });
 }
 
+// TODO: Implement the update Street defect
 function updateStreetDefect(req, res) {
-
+  throw {
+    message: 'Not implemented yet!'
+  };
+  // let query = {_id: req.params.objectId };
+  // let update = {
+  // };
+  //
+  // StreetDefect.findOneAndUpdate(query, update).exec()
+  // .then(result => {
+  //   res.json(ResponseHandler.generalResponse(true, '', result));
+  // })
+  // .catch(err => {
+  //   res.status(500).json(ResponseHandler.errorResponse(err));
+  // });
 }
 
 function deleteStreetDefect(req, res) {
-  let streetDefectId = req.params.streetDefectId;
   StreetDefect.remove({
-      _id: streetDefectId
+      _id: req.params.objectId
     })
     .then(streetDefect => {
       res.json(ResponseHandler.generalResponse(true, 'deleted', streetDefect));
     })
-    .catch(err => { throw ResponseHandler.errorResponse(err); });
+    .catch(err => { res.status(500).json(ResponseHandler.errorResponse(err)); });
 }
 
 module.exports = {

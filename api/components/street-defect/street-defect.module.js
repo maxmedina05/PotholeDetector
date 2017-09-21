@@ -91,7 +91,7 @@ router.route('/').post(streetDefectController.addStreetDefect);
 
 /**
  * @swagger
- * /api/street-defects/{streetDefectId}:
+ * /api/street-defects/{objectId}:
  *   get:
  *     tags:
  *       - StreetDefects
@@ -99,7 +99,7 @@ router.route('/').post(streetDefectController.addStreetDefect);
  *     produces:
  *       - application/json
  *     parameters:
- *      - name: streetDefectId
+ *      - name: objectId
  *        description: The ObjectId of the street defect
  *        in: path
  *        type: string
@@ -114,18 +114,18 @@ router.route('/').post(streetDefectController.addStreetDefect);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:streetDefectId').get(streetDefectController.getStreetDefect);
+router.route('/:objectId').get(streetDefectController.getStreetDefect);
 
 /**
  * @swagger
- * /api/street-defects/{streetDefectId}:
+ * /api/street-defects/{objectId}:
  *   put:
  *     tags:
  *       - StreetDefects
  *     description: Updates a specific street defect based on ObjectId
  *     produces: application/json
  *     parameters:
- *      - name: streetDefectId
+ *      - name: objectId
  *        description: The ObjectId of the street defect
  *        in: path
  *        type: string
@@ -140,18 +140,18 @@ router.route('/:streetDefectId').get(streetDefectController.getStreetDefect);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:streetDefectId').put(streetDefectController.updateStreetDefect);
+router.route('/:objectId').put(streetDefectController.updateStreetDefect);
 
 /**
  * @swagger
- * /api/street-defects/{streetDefectId}:
+ * /api/street-defects/{objectId}:
  *   delete:
  *     tags:
  *       - StreetDefects
  *     description: Deletes a specific street defect based on ObjectId
  *     produces: application/json
  *     parameters:
- *      - name: streetDefectId
+ *      - name: objectId
  *        description: The ObjectId of the street defect
  *        in: path
  *        type: string
@@ -166,6 +166,6 @@ router.route('/:streetDefectId').put(streetDefectController.updateStreetDefect);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:streetDefectId').delete(streetDefectController.deleteStreetDefect);
+router.route('/:objectId').delete(streetDefectController.deleteStreetDefect);
 
 module.exports = router;
