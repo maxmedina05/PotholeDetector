@@ -1,5 +1,8 @@
+const jwt = require('jsonwebtoken');
 const User = require('../user/user.model');
 const ResponseHandler = require('../helpers/response-handler');
+
+const SECRET = process.env.SECRET || 'MY_SUPER_SECRET_CODE';
 
 function login(req, res) {
   let user = {
@@ -7,23 +10,37 @@ function login(req, res) {
     password: req.body.password
   }
 
-  User.findOne({
-      email: user.email
-    }).exec()
+  User.findOne( { email: user.email }).exec()
     .then(userFound => {
-      if (user.password === userFound.password) {
+      if (!userFound) {
+        res.json({
+          success: true,
+          message: 'Login failed. User not found.',
+        });
+      } else if (user.password !== userFound.password) {
+        res.json(ResponseHandler.errorResponse('Login failed. Wrong email or password.'));
+      } else {
+
+        let tokenData = {
+          id: userFound._id,
+          email: userFound.email
+        };
+
+        let token = jwt.sign(tokenData, SECRET, {
+          expiresIn: '12h'
+        });
+
         res.json({
           success: true,
           message: 'Login was successful',
           data: userFound,
-          authorization: buildAuthorization(userFound.email, userFound.password)
+          authorization: token
         });
-      } else {
-        res.json(ResponseHandler.errorResponse('Login was not successful'));
       }
 
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json(ResponseHandler.errorResponse(err));
     });
 }

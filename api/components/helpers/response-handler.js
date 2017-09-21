@@ -10,7 +10,7 @@ function generalResponse(success, verb, data) {
 function alreadyDeletedResponse(success, data) {
   let response = {
     success: success,
-    message: `User was already deleted!`,
+    message: 'User was already deleted!',
     data: data
   };
   return response;
