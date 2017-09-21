@@ -11,7 +11,9 @@
     "no-debugger": 2,
     "no-undef": 2,
     "no-undefined": 2,
-    "no-var": 2
+    "no-var": 2,
+    "no-console": 0,
+    "no-unused-vars": 0
 
   },
   "env": {

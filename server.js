@@ -12,6 +12,13 @@ const userModule = require('./api/components/user/user.module');
 const authModule = require('./api/components/authentication/auth.module');
 const streetDefectModule = require('./api/components/street-defect/street-defect.module');
 
+// Enable CORS
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
   // application specific logging, throwing an error, or other logic here

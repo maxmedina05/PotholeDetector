@@ -12,7 +12,7 @@
       "url": "https://github.com/swagger-api/swagger-ui/blob/master/LICENSE"
     }
   },
-  "host": "localhost:5099",
+  "host": "http://52.168.3.123:5099",
   "basePath": "/",
   "produces": [
     "application/json"
