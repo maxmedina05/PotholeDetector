@@ -12,7 +12,7 @@ function addUser(req, res) {
 
   newUser.save()
     .then(result =>
-      res.status(201).json(ResponseHandler.generalResponse(true, 'created', result))
+      res.status(201).json(ResponseHandler.generalResponse('User', true, 'created', result))
     )
 
     .catch(err => {
@@ -26,7 +26,7 @@ function getUser(req, res) {
       _id: objectId
     }).exec()
     .then(user => {
-      res.json(ResponseHandler.generalResponse(true, '', user));
+      res.json(ResponseHandler.generalResponse('User', true, '', user));
     })
     .catch(err => {
       res.status(500).json(ResponseHandler.errorResponse(err));
@@ -36,7 +36,7 @@ function getUser(req, res) {
 function getUsers(req, res) {
   User.find({}).exec()
     .then(function(users) {
-      res.json(ResponseHandler.generalResponse(true, '', users));
+      res.json(ResponseHandler.generalResponse('User', true, '', users));
     })
     .catch(err => {
       res.status(500).json(ResponseHandler.errorResponse(err));
@@ -54,7 +54,7 @@ function updateUser(req, res) {
 
   User.findOneAndUpdate(query, update).exec()
     .then(result => {
-      res.json(ResponseHandler.generalResponse(true, '', result));
+      res.json(ResponseHandler.generalResponse('User', true, '', result));
     })
     .catch(err => {
       res.status(500).json(ResponseHandler.errorResponse(err));
@@ -69,7 +69,7 @@ function deleteUser(req, res) {
       if (code.result.n == 0) {
         res.json(ResponseHandler.alreadyDeletedResponse(true, code.result));
       } else {
-        res.status(204).json(ResponseHandler.generalResponse(true, 'deleted', code));
+        res.status(204).json(ResponseHandler.generalResponse('User', true, 'deleted', code));
       }
     })
     .catch(err => {

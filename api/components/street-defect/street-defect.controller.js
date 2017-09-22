@@ -3,10 +3,10 @@ const ResponseHandler = require('../helpers/response-handler');
 
 function addStreetDefect(req, res) {
   let streetDefect = req.body;
-  var newStreetDefect = StreetDefect(streetDefect);
+  let newStreetDefect = StreetDefect(streetDefect);
   newStreetDefect.save()
     .then(result => {
-      res.status(201).json(ResponseHandler.generalResponse(true, 'created', streetDefect));
+      res.status(201).json(ResponseHandler.generalResponse('Street Defect', true, 'created', streetDefect));
     })
     .catch(err => { res.status(500).json(ResponseHandler.errorResponse(err)); });
 }
@@ -25,7 +25,7 @@ function getStreetDefect(req, res) {
 function getStreetDefects(req, res) {
   StreetDefect.find({}).exec()
     .then(function(streetDefects) {
-      res.json(ResponseHandler.generalResponse(true, '', streetDefects));
+      res.json(ResponseHandler.generalResponse('Street Defect', true, '', streetDefects));
     });
 }
 
@@ -52,7 +52,7 @@ function deleteStreetDefect(req, res) {
       _id: req.params.objectId
     })
     .then(streetDefect => {
-      res.json(ResponseHandler.generalResponse(true, 'deleted', streetDefect));
+      res.json(ResponseHandler.generalResponse('Street Defect', true, 'deleted', streetDefect));
     })
     .catch(err => { res.status(500).json(ResponseHandler.errorResponse(err)); });
 }

@@ -1,7 +1,7 @@
-function generalResponse(success, verb, data) {
+function generalResponse(model, success, verb, data) {
   let response = {
     success: success,
-    message: (verb === '') ? '' : `User was ${verb} successfully!`,
+    message: (verb === '') ? '' : `${model} was ${verb} successfully!`,
     data: data
   };
   return response;
