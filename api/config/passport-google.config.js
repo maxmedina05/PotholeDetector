@@ -20,6 +20,31 @@ passport.deserializeUser(function(obj, done) {
 });
 
 function strategyCallback(accessToken, refreshToken, profile, done) {
-  console.log('access token: ', accessToken);
-  return done(null, profile);
+  console.log('Password Google Strategy');
+  process.nextTick(function() {
+    User.findOne({ googleId: profile.id}, function(err, user) {
+
+      if(err){
+        return done(err);
+      }
+
+      if(user) {
+        return done(null, user);
+      } else {
+        let newUser = new User();
+        newUser.googleId = profile.id;
+        newUser.token = accessToken;
+        newUser.name = profile.displayName;
+        newUser.email = profile.emails[0].value;
+
+        newUser.save(function(err) {
+          if(err) {
+            throw err;
+          }
+          return done(null, newUser);
+        });
+      }
+
+    });
+  });
 }

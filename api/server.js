@@ -54,7 +54,11 @@ app.get('/', function(req, res) {
   res.send('hello world');
 });
 
-app.use(session({ secret: 'cats'} ));
+app.get('/login', function(req, res) {
+  res.send('Please Login');
+});
+
+app.use(session({ secret: 'cats', resave: true, saveUninitialized: true } ));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -62,6 +66,15 @@ const passportConfig = require('./config/passport-google.config');
 
 // API routes
 app.use(authModule);
+
+app.use(function(req, res, next) {
+  if(req.isAuthenticated()) {
+    return next();
+  }
+
+  res.redirect('/login');
+});
+
 app.use('/api/users', userModule);
 app.use('/api/street-defects', streetDefectModule);
 

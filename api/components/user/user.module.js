@@ -60,13 +60,7 @@ const passport = require('passport');
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/', passport.authenticate('google', { scope: ['profile', 'email'] }))
-.get(function(req, res) {
-  res.json({
-    user: req.user
-  });
-});
-// .get(userController.getUsers);
+router.route('/').get(userController.getUsers);
 
 /**
  * @swagger
@@ -176,5 +170,13 @@ router.route('/:objectId').put(userController.updateUser);
  *           $ref: '#/definitions/ErrorResponse'
  */
 router.route('/:objectId').delete(userController.deleteUser);
+
+function isLoggedIn(req, res, next) {
+    // if user is authenticated in the session, carry on
+    if (req.isAuthenticated())
+        return next();
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
 
 module.exports = router;
