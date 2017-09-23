@@ -1,20 +1,19 @@
 /* global Promise */
-
 require('dotenv').config();
-const express = require('express');
 const bodyParser = require('body-parser');
+const express = require('express');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+const passport = require('passport');
 
 const PORT = process.env.PORT || 5099;
-const SECRET = process.env.SECRET || 'MY_SUPER_SECRET_CODE';
-const mongoose = require('mongoose');
 
 const app = express();
-const swaggerSpecs = require('./api/swagger.config');
-const userModule = require('./api/components/user/user.module');
-const authModule = require('./api/components/authentication/auth.module');
-const streetDefectModule = require('./api/components/street-defect/street-defect.module');
+const swaggerConfig = require('./swagger.config');
+const userModule = require('./components/user/user.module');
+const authModule = require('./components/authentication/auth.module');
+const streetDefectModule = require('./components/street-defect/street-defect.module');
 
 // Database configuration
 mongoose.Promise = Promise;
@@ -25,7 +24,7 @@ mongoose.connect(process.env.DB_CONN_STR, {
 // API configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: false
 }));
 
 // Setup logger
@@ -50,11 +49,21 @@ process.on('unhandledRejection', (reason, p) => {
 app.use('/v1/api', express.static(__dirname + '/public/docs'));
 app.get('/swagger.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpecs);
+  res.send(swaggerConfig);
+});
+
+// app.use(session({ secret: SECRET, resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+// app.use(passport.session());
+
+const passportConfig = require('./config/passport-bearer.config');
+
+app.get('/', function(req, res) {
+  res.send('hello world');
 });
 
 // API routes
-app.use('/api', authModule);
+app.use(authModule);
 // app.use(require('./api/route.guard'));
 app.use('/api/users', userModule);
 app.use('/api/street-defects', streetDefectModule);
