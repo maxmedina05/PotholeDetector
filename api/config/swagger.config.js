@@ -12,6 +12,13 @@ const swaggerDefinition = {
       contact: 'maxmedina05@gmail.com'
     }
   },
+  securityDefinitions: {
+    oauth: {
+      type: 'oauth2',
+      authorizationUrl: '/auth/google',
+      flow: 'implicit'
+    },
+  },
   host: `${BASE_URL}:${PORT}`,
   basePath: '/'
 };

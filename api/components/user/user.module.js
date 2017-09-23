@@ -1,6 +1,7 @@
 const express                                 = require('express');
 const router                                  = express.Router();
 const userController                          = require('./user.controller');
+const passport = require('passport');
 
 /**
  * @swagger
@@ -59,7 +60,13 @@ const userController                          = require('./user.controller');
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/').get(userController.getUsers);
+router.route('/', passport.authenticate('google', { scope: ['profile', 'email'] }))
+.get(function(req, res) {
+  res.json({
+    user: req.user
+  });
+});
+// .get(userController.getUsers);
 
 /**
  * @swagger

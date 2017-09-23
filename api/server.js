@@ -6,11 +6,12 @@ const methodOverride = require('method-override');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const session = require('express-session');
 
 const PORT = process.env.PORT || 5099;
 
 const app = express();
-const swaggerConfig = require('./swagger.config');
+const swaggerConfig = require('./config/swagger.config');
 const userModule = require('./components/user/user.module');
 const authModule = require('./components/authentication/auth.module');
 const streetDefectModule = require('./components/street-defect/street-defect.module');
@@ -26,13 +27,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-
 // Setup logger
 app.use(morgan('dev'));
-
 // Overriding methods for error handling
 app.use(methodOverride());
-
 // Enable CORS
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -52,19 +50,18 @@ app.get('/swagger.json', function(req, res) {
   res.send(swaggerConfig);
 });
 
-// app.use(session({ secret: SECRET, resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-// app.use(passport.session());
-
-const passportConfig = require('./config/passport-bearer.config');
-
 app.get('/', function(req, res) {
   res.send('hello world');
 });
 
+app.use(session({ secret: 'cats'} ));
+app.use(passport.initialize());
+app.use(passport.session());
+
+const passportConfig = require('./config/passport-google.config');
+
 // API routes
 app.use(authModule);
-// app.use(require('./api/route.guard'));
 app.use('/api/users', userModule);
 app.use('/api/street-defects', streetDefectModule);
 
