@@ -3,7 +3,6 @@ require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const methodOverride = require('method-override');
-const morgan = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
@@ -27,10 +26,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-// Setup logger
-app.use(morgan('dev'));
+
 // Overriding methods for error handling
 app.use(methodOverride());
+
 // Enable CORS
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -58,23 +57,13 @@ app.get('/login', function(req, res) {
   res.send('Please Login');
 });
 
-app.use(session({ secret: 'cats', resave: true, saveUninitialized: true } ));
 app.use(passport.initialize());
-app.use(passport.session());
-
-const passportConfig = require('./config/passport-google.config');
 
 // API routes
+const passportGoogleConfig = require('./config/passport-google.config');
 app.use(authModule);
 
-app.use(function(req, res, next) {
-  if(req.isAuthenticated()) {
-    return next();
-  }
-
-  res.redirect('/login');
-});
-
+const passportConfig = require('./config/passport-bearer.config');
 app.use('/api/users', userModule);
 app.use('/api/street-defects', streetDefectModule);
 

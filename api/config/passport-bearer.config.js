@@ -6,8 +6,16 @@ const User = require('../components/user/user.model');
 passport.use(new BearerStrategy(BearerStrategyCallback));
 
 function BearerStrategyCallback (token, done) {
-  console.log(token);
   console.log('BearerStrategyCallback');
+  User.findOne({ token: token }, function(err, user) {
+    if(err) {
+      return done(err);
+    }
 
-  return done(null, {}, { scope: 'read' });
+    if(!user) {
+      return done(null, false);
+    }
+
+    return done(null, user, { scope: 'all' });
+  });
 }

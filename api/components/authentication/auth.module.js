@@ -10,7 +10,9 @@ const router = express.Router();
 //   back to this application at /auth/google/callback
 router.get('/auth/google',
   passport.authenticate('google', {
-    scope: ['profile', 'email']
+    session: false,
+    // scope: ['profile', 'email']
+    scope: ['email']
   }));
 
 // GET /auth/google/callback
@@ -20,11 +22,11 @@ router.get('/auth/google',
 //   which, in this example, will redirect the user to the home page.
 router.get('/auth/google/callback',
   passport.authenticate('google', {
+    session: false,
     failureRedirect: '/login'
   }),
   function(req, res) {
-    console.log('successful');
-    res.redirect('/');
+    res.redirect('/?access_token=' + req.user.token);
   });
 
 module.exports = router;

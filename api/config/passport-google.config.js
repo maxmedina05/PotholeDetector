@@ -21,30 +21,32 @@ passport.deserializeUser(function(obj, done) {
 
 function strategyCallback(accessToken, refreshToken, profile, done) {
   console.log('Password Google Strategy');
-  process.nextTick(function() {
-    User.findOne({ googleId: profile.id}, function(err, user) {
-
-      if(err){
-        return done(err);
-      }
-
-      if(user) {
-        return done(null, user);
-      } else {
-        let newUser = new User();
-        newUser.googleId = profile.id;
-        newUser.token = accessToken;
-        newUser.name = profile.displayName;
-        newUser.email = profile.emails[0].value;
-
-        newUser.save(function(err) {
-          if(err) {
-            throw err;
-          }
-          return done(null, newUser);
-        });
-      }
-
-    });
+  User.findOrCreate({
+    googleId: profile.id
+  }, function(err, result) {
+    if (result) {
+      result.token = accessToken;
+      result.save(function(err, doc) {
+        done(err, doc);
+      });
+    } else {
+      done(err, result);
+    }
   });
+}
+
+module.exports.isAccessTokenAlive = function(token, successCb, failedCb) {
+  User.findOne({
+    token: token
+  }, function(err, user) {
+    if (err) {
+      throw err;
+    }
+
+    if (user) {
+      successCb();
+    } else {
+      failedCb();
+    }
+  })
 }
