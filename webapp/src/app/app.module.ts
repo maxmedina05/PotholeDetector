@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MapComponent } from './components/map/map.component';
 import { StreetDefectListComponent } from './components/street-defect-list/street-defect-list.component';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { StreetDefectListComponent } from './components/street-defect-list/stree
     LoginComponent,
     DashboardComponent,
     MapComponent,
-    StreetDefectListComponent
+    StreetDefectListComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
