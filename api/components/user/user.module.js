@@ -60,15 +60,7 @@ const passport = require('passport');
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-// router.route('/').get(passport.authenticate('bearer', { session: false }), userController.getUsers);
-router.route('/').get(passport.authenticate('bearer', { session: false }), function(req, res) {
-  console.log('/users ', req.user);
-  res.json({
-    user: req.user,
-    message: 'test'
-  });
-});
-
+router.route('/').get(userController.getUsers);
 /**
  * @swagger
  * /api/users:

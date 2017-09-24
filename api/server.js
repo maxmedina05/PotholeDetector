@@ -5,14 +5,13 @@ const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const session = require('express-session');
 
 const PORT = process.env.PORT || 5099;
 
 const app = express();
 const swaggerConfig = require('./config/swagger.config');
-const userModule = require('./components/user/user.module');
 const authModule = require('./components/authentication/auth.module');
+const userModule = require('./components/user/user.module');
 const streetDefectModule = require('./components/street-defect/street-defect.module');
 
 // Database configuration
@@ -20,14 +19,11 @@ mongoose.Promise = Promise;
 mongoose.connect(process.env.DB_CONN_STR, {
   useMongoClient: true
 });
-
 // API configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-
-// Overriding methods for error handling
 app.use(methodOverride());
 
 // Enable CORS
@@ -37,13 +33,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-process.on('unhandledRejection', (reason, p) => {
-  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-  // application specific logging, throwing an error, or other logic here
-});
-
 // Setup API Documentation
-app.use('/v1/api', express.static(__dirname + '/public/docs'));
+app.use('/api/v1', express.static(__dirname + '/public/docs'));
 app.get('/swagger.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerConfig);
@@ -58,19 +49,32 @@ app.get('/login', function(req, res) {
 });
 
 app.use(passport.initialize());
-
 // API routes
 const passportGoogleConfig = require('./config/passport-google.config');
 app.use(authModule);
-
 const passportConfig = require('./config/passport-bearer.config');
+
 app.use('/api/users', userModule);
 app.use('/api/street-defects', streetDefectModule);
 
+// Handling 404 errors
+app.get('*', function(req, res, next) {
+  let err = new Error();
+  err.status = 404;
+  next(err);
+});
+
 // Error Handler
 app.use(function(err, req, res, next) {
-  console.error(err);
-  res.status(500).send(err);
+  if (err.status === 404) {
+    return res.send('NOT FOUND!');
+  }
+  return res.status(500).send(err);
+});
+
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  // application specific logging, throwing an error, or other logic here
 });
 
 app.listen(PORT, function() {
