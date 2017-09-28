@@ -22,7 +22,11 @@ function getStreetDefect(req, res) {
     .catch(err => { res.status(500).json(ResponseHandler.errorResponse(err)); });
 }
 
+
 function getStreetDefects(req, res) {
+  // console.log(req.params.lat);
+  // console.log(req.params.log);
+
   StreetDefect.find({}).exec()
     .then(function(streetDefects) {
       res.json(ResponseHandler.generalResponse('Street Defect', true, '', streetDefects));
@@ -34,17 +38,6 @@ function updateStreetDefect(req, res) {
   throw {
     message: 'Not implemented yet!'
   };
-  // let query = {_id: req.params.objectId };
-  // let update = {
-  // };
-  //
-  // StreetDefect.findOneAndUpdate(query, update).exec()
-  // .then(result => {
-  //   res.json(ResponseHandler.generalResponse(true, '', result));
-  // })
-  // .catch(err => {
-  //   res.status(500).json(ResponseHandler.errorResponse(err));
-  // });
 }
 
 function deleteStreetDefect(req, res) {

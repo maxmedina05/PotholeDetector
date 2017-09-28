@@ -12,3 +12,25 @@ db.users.insert([
     "password": "1234"
   }
 ]);
+
+18.464950, -69.931229
+18.460497, -69.928690
+
+{
+  "location" : {
+          "coordinates" : [
+                  -69.931229,
+                  18.464950
+          ],
+          "type" : "Point"
+  }
+},
+{
+  "location" : {
+          "coordinates" : [
+                  -69.928690,
+                  18.460497
+          ],
+          "type" : "Point"
+  }
+},

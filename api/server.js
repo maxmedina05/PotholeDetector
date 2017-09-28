@@ -48,29 +48,30 @@ app.get('/login', function(req, res) {
   res.send('Please Login');
 });
 
-app.use(passport.initialize());
-// API routes
-const passportGoogleConfig = require('./config/passport-google.config');
-app.use(authModule);
-const passportConfig = require('./config/passport-bearer.config');
+// app.use(passport.initialize());
+// // API routes
+// const passportGoogleConfig = require('./config/passport-google.config');
+// app.use(authModule);
+// const passportConfig = require('./config/passport-bearer.config');
 
 app.use('/api/users', userModule);
 app.use('/api/street-defects', streetDefectModule);
+// app.use('/api/restaurants', restaurantModule);
 
 // Handling 404 errors
-app.get('*', function(req, res, next) {
-  let err = new Error();
-  err.status = 404;
-  next(err);
-});
+// app.get('*', function(req, res, next) {
+//   let err = new Error();
+//   err.status = 404;
+//   next(err);
+// });
 
 // Error Handler
-app.use(function(err, req, res, next) {
-  if (err.status === 404) {
-    return res.send('NOT FOUND!');
-  }
-  return res.status(500).send(err);
-});
+// app.use(function(err, req, res, next) {
+//   if (err.status === 404) {
+//     return res.send('NOT FOUND!');
+//   }
+//   return res.status(500).send(err);
+// });
 
 process.on('unhandledRejection', (reason, p) => {
   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
