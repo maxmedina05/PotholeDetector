@@ -80,9 +80,15 @@ export class MapComponent implements OnInit {
 
     this.centerMarker.setPosition(this.mapObject.getCenter());
     this.clearMarkers();
-    this.streetDefectService.getStreetDefects(lat, lng)
-      .then(streetDefects => {
-        this.loadStreetDefectsToMap(streetDefects);
-      });
+
+    clearTimeout(this.refreshMarkersTimeout);
+
+    this.refreshMarkersTimeout = setTimeout(() => {
+      this.streetDefectService.getStreetDefects(lat, lng)
+        .then(streetDefects => {
+          this.loadStreetDefectsToMap(streetDefects);
+        });
+    }, 300);
+
   }
 }

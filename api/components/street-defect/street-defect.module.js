@@ -1,4 +1,5 @@
 const express                           = require('express');
+const passport                           = require('passport');
 const router                            = express.Router();
 const streetDefectController            = require('./street-defect.controller');
 
@@ -57,6 +58,7 @@ const streetDefectController            = require('./street-defect.controller');
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
+// router.route('/').get(passport.authenticate('bearer', { session: false }), streetDefectController.getStreetDefects);
 router.route('/').get(streetDefectController.getStreetDefects);
 
 /**
@@ -87,7 +89,7 @@ router.route('/').get(streetDefectController.getStreetDefects);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/').post(streetDefectController.addStreetDefect);
+router.route('/').post( passport.authenticate('bearer', { session: false }), streetDefectController.addStreetDefect);
 
 /**
  * @swagger

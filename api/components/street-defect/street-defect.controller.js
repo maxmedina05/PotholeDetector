@@ -21,17 +21,15 @@ function getStreetDefect(req, res) {
 }
 
 function getStreetDefects(req, res) {
-    let lat = req.query.lat;
-    let lng = req.query.lng;
+    let lat = (req.query.lat) ? req.query.lat : 18.464950;
+    let lng = (req.query.lng) ? req.query.lng : -69.931229;
     let maxDistance = (req.query.maxDistance) ? req.query.maxDistance : 500;
-    // console.log(req.query.lat);
-    // console.log(req.query.lng);
 
     StreetDefect.find({
         location: {
             $nearSphere: {
                 $geometry: {
-                    type: "Point",
+                    type: 'Point',
                     coordinates: [lng, lat]
                 },
                 $maxDistance: maxDistance
