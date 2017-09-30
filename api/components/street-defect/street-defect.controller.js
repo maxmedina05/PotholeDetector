@@ -29,7 +29,6 @@ function addStreetDefect(req, res) {
 }
 
 function getStreetDefect(req, res) {
-
     StreetDefect.findOne({_id: req.params.objectId}).exec().then(streetDefect => {
         res.json(ResponseHandler.generalResponse(true, '', streetDefect));
     }).catch(err => {
