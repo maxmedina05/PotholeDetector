@@ -41,6 +41,7 @@ function getStreetDefects(req, res) {
     let lng = (req.query.lng) ? req.query.lng : -69.931229;
     let radix = (req.query.radix) ? req.query.radix : 50;
 
+    
     StreetDefect.find({
         location: {
             $nearSphere: {
