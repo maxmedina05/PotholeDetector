@@ -1,5 +1,19 @@
 const mongoose = require('mongoose');
 
+/**
+ * @swagger
+ * definition:
+ *   User:
+ *     properties:
+ *       googleId:
+ *         type: string
+ *       name:
+ *         type: string
+ *       email:
+ *         type: integer
+ *       token:
+ *         type: string
+ */
 const UserSchema = new mongoose.Schema({
   googleId: String,
   name: String,

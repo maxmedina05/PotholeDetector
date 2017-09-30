@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
-
+/**
+ * @swagger
+ * definition:
+ *   StreetDefect:
+ *     properties:
+ *       userId:
+ *         type: string
+ *       latitude:
+ *         type: number
+ *       longitude:
+ *         type: number
+ */
 const StreetDefectSchema = new mongoose.Schema({
   userId: String,
   xMean: Number,

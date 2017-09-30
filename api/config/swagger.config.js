@@ -24,7 +24,11 @@ const swaggerDefinition = {
 };
 const swaggerOptions = {
   swaggerDefinition: swaggerDefinition,
-  apis: ['./components/*/*.module.js']
+  apis: [
+    './components/response-handler.js',
+    './components/*/*.model.js',
+    './components/*/*.module.js',
+  ]
 };
 const swaggerSpecs = swaggerJSDoc(swaggerOptions);
 

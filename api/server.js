@@ -49,13 +49,14 @@ app.get('/login', function(req, res) {
 });
 
 app.use(passport.initialize());
+
 // API routes
 const passportGoogleConfig = require('./config/passport-google.config');
 app.use(authModule);
 const passportConfig = require('./config/passport-bearer.config');
 
-app.use('/api/users', userModule);
-app.use('/api/street-defects', streetDefectModule);
+app.use('/api/v1/users', userModule);
+app.use('/api/v1/street-defects', streetDefectModule);
 
 // Handling 404 errors
 app.get('*', function(req, res, next) {
@@ -66,9 +67,15 @@ app.get('*', function(req, res, next) {
 
 // Error Handler
 app.use(function(err, req, res, next) {
+  console.log(err);
   if (err.status === 404) {
     return res.send('NOT FOUND!');
   }
+
+  if(err.status === 400) {
+    return res.status(400).json(err);
+  }
+
   return res.status(500).send(err);
 });
 

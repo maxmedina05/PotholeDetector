@@ -1,11 +1,28 @@
 const StreetDefect = require('./street-defect.model');
-const ResponseHandler = require('../helpers/response-handler');
+const ResponseHandler = require('../response-handler');
 
 function addStreetDefect(req, res) {
-    let streetDefect = req.body;
-    let newStreetDefect = StreetDefect(streetDefect);
+    if(!req.body.latitude || !req.body.longitude) {
+      let err = ResponseHandler.errorResponse('Missing latitude or longitude as parameters');
+      err.status = 400;
+      throw err;
+    }
+
+    if(!req.body.userId) {
+      let err = ResponseHandler.errorResponse('Missing userId as parameters');
+      err.status = 400;
+      throw err;
+    }
+
+    let newStreetDefect = new StreetDefect({
+      location: {
+        coordinates: [req.body.latitude, req.body.longitude],
+        type: 'Point'
+      }
+    });
+
     newStreetDefect.save().then(result => {
-        res.status(201).json(ResponseHandler.generalResponse('Street Defect', true, 'created', streetDefect));
+        res.status(201).json(ResponseHandler.generalResponse('Street Defect', true, 'created', newStreetDefect));
     }).catch(err => {
         res.status(500).json(ResponseHandler.errorResponse(err));
     });
@@ -23,7 +40,7 @@ function getStreetDefect(req, res) {
 function getStreetDefects(req, res) {
     let lat = (req.query.lat) ? req.query.lat : 18.464950;
     let lng = (req.query.lng) ? req.query.lng : -69.931229;
-    let maxDistance = (req.query.maxDistance) ? req.query.maxDistance : 500;
+    let radix = (req.query.radix) ? req.query.radix : 50;
 
     StreetDefect.find({
         location: {
@@ -32,7 +49,7 @@ function getStreetDefects(req, res) {
                     type: 'Point',
                     coordinates: [lng, lat]
                 },
-                $maxDistance: maxDistance
+                $maxDistance: radix
             }
         }
     }).exec().then(function(streetDefects) {

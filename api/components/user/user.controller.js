@@ -1,5 +1,5 @@
 const User = require('./user.model');
-const ResponseHandler = require('../helpers/response-handler');
+const ResponseHandler = require('../response-handler');
 
 function addUser(req, res) {
   let model = req.body;

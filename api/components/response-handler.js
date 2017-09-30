@@ -1,3 +1,30 @@
+/**
+* @swagger
+* definition:
+*   GeneralResponse:
+*     required:
+*      - success
+*      - message
+*      - data
+*     properties:
+*       success:
+*         type: string
+*       message:
+*         type: string
+*       data:
+*         type: object
+
+*   ErrorResponse:
+*     required:
+*      - success
+*      - message
+*     properties:
+*       success:
+*         type: string
+*       message:
+*         type: string
+*/
+
 function generalResponse(model, success, verb, data) {
   let response = {
     success: success,

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../user/user.model');
-const ResponseHandler = require('../helpers/response-handler');
+const ResponseHandler = require('../response-handler');
 
 const SECRET = process.env.SECRET || 'MY_SUPER_SECRET_CODE';
 
