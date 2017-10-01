@@ -10,8 +10,8 @@ function validateToken(token) {
       token,
       process.env.GOOGLE_CLIENT_ID,
       (err, login) => {
-        console.log('error on validateToken');
         if (err || !login) {
+          console.log('error on validateToken');
           return reject(err);
         } else {
           let payload = login.getPayload();
