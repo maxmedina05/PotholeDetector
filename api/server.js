@@ -30,19 +30,19 @@ app.use(bodyParser.urlencoded({
 }));
 
 // Enable CORS
-// app.use(function(req, res, next) {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-//   res.setHeader('Access-Control-Expose-Headers', 'Content-Length');
-//   res.setHeader('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
-//
-//   if(req.method === 'OPTIONS') {
-//       console.log(req.headers);
-//   }
-//   next();
-// });
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+  res.setHeader('Access-Control-Expose-Headers', 'Content-Length');
+  res.setHeader('Access-Control-Allow-Headers', 'authorization, Authorization, Origin, X-Requested-With, Content-Type, Accept');
 
-app.use(cors());
+  if(req.method === 'OPTIONS') {
+      return res.send('OK');
+  }
+  next();
+});
+
+// app.use(cors());
 
 // Setup API Documentation
 app.use('/api/v1', express.static(__dirname + '/public/docs'));

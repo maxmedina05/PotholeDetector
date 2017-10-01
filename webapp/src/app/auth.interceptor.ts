@@ -12,7 +12,6 @@ export class AuthInterceptor implements HttpInterceptor {
     let token = localStorage.getItem('token');
     const authHeader = `Pothole ${token}`;
     const authReq = req.clone( { headers: req.headers.set('Authorization', authHeader) } );
-    console.log('interceptor', authReq);
     return next.handle(authReq);
   }
 }

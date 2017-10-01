@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { StreetDefect } from '../models/street-defect.model';
 
@@ -11,16 +11,22 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class StreetDefectService {
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
 
   }
 
   getStreetDefects(lat: number, lng: number, radix: number): Promise<StreetDefect[]> {
-    return this.http.get(`${environment.API_BASE_URL}/street-defects?lat=${lat}&lng=${lng}&radix=${radix}`)
+    return this.http.get<IResponse>(`${environment.API_BASE_URL}/street-defects?lat=${lat}&lng=${lng}&radix=${radix}`)
       .toPromise()
-      .then(response => response.json().data as StreetDefect[])
+      .then(response => response.data as StreetDefect[])
       .catch(err => {
         console.log(err)
       })
   }
+}
+
+interface IResponse {
+  message: string;
+  success: boolean;
+  data: any
 }
