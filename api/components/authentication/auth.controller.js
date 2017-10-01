@@ -1,61 +1,39 @@
-const jwt = require('jsonwebtoken');
 const User = require('../user/user.model');
+const GoogleAuth = require('google-auth-library');
 const ResponseHandler = require('../response-handler');
 
-const SECRET = process.env.SECRET || 'MY_SUPER_SECRET_CODE';
+const auth = new GoogleAuth;
+const client = new auth.OAuth2(process.env.GOOGLE_CLIENT_ID, '', '');
 
-function login(req, res) {
-  let user = {
-    email: req.body.email,
-    password: req.body.password
-  }
+function authenticate(req, res) {
+  let token = req.body.token;
+  client.verifyIdToken(
+    token,
+    process.env.GOOGLE_CLIENT_ID,
+    (err, login) => {
+      let payload = login.getPayload();
+      let userId = payload['sub'];
 
-  User.findOne( { email: user.email }).exec()
-    .then(userFound => {
-      if (!userFound) {
-        res.json({
-          success: true,
-          message: 'Login failed. User not found.',
-        });
-      } else if (user.password !== userFound.password) {
-        res.json(ResponseHandler.errorResponse('Login failed. Wrong email or password.'));
-      } else {
-
-        let tokenData = {
-          id: userFound._id,
-          email: userFound.email
-        };
-
-        let token = jwt.sign(tokenData, SECRET, {
-          expiresIn: '12h'
-        });
-
-        res.json({
-          success: true,
-          message: 'Login was successful',
-          data: userFound,
-          authorization: token
-        });
-      }
-
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).json(ResponseHandler.errorResponse(err));
-    });
-}
-
-function signup(req, res) {
-
-}
-
-function buildAuthorization(username, password) {
-  let authorization = username + ':' + password;
-  authorization = new Buffer(authorization).toString('base64');
-  return authorization;
+      User.findOrCreate({ googleId: userId })
+        .then(user => {
+            user.name = payload['name'];
+            user.email = payload['email'];
+            user.expire = payload['expire'];
+            return user.save()
+        })
+        .then(user => {
+          let data = {
+            user: user,
+            token: token
+          }
+          res.json(ResponseHandler.authenticateResonse(data));
+        })
+        .catch(err => res.status(500).json(ResponseHandler.errorResponse(err)));
+    }
+  );
+  // res.send('Not okay');
 }
 
 module.exports = {
-  login: login,
-  signup: signup
+  authenticate: authenticate
 };

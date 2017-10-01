@@ -3,6 +3,8 @@ const passport = require('passport');
 const authController = require('./auth.controller');
 const router = express.Router();
 
+router.post('/authenticate', authController.authenticate);
+
 /**
  * @swagger
  *  /auth/google:

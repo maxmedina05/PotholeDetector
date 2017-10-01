@@ -51,8 +51,28 @@ function errorResponse(err) {
   return response;
 }
 
+function tokenExpireResponse() {
+  let response = {
+    success: false,
+    message: 'Your token has expires. Login again!'
+  };
+
+  return response;
+}
+
+function authenticateResonse(data) {
+  let response = {
+    success: true,
+    message: 'Authenticated successfully!',
+    data: data
+  };
+  return response;
+}
+
 module.exports = {
   generalResponse: generalResponse,
   errorResponse: errorResponse,
-  alreadyDeletedResponse: alreadyDeletedResponse
+  alreadyDeletedResponse: alreadyDeletedResponse,
+  tokenExpireResponse: tokenExpireResponse,
+  authenticateResonse: authenticateResonse
 };

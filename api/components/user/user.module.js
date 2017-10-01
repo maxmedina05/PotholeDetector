@@ -22,7 +22,7 @@ const router                                  = express.Router();
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/').get(passport.authenticate('bearer', { session: false }), userController.getUsers);
+router.route('/').get(userController.getUsers);
 
 /**
  * @swagger
@@ -49,8 +49,8 @@ router.route('/').get(passport.authenticate('bearer', { session: false }), userC
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/:objectId').get(passport.authenticate('bearer', { session: false }), userController.getUser);
-router.route('/:objectId').put(passport.authenticate('bearer', { session: false }), userController.updateUser);
-router.route('/:objectId').delete(passport.authenticate('bearer', { session: false }), userController.deleteUser);
+router.route('/:objectId').get(userController.getUser);
+router.route('/:objectId').put(userController.updateUser);
+router.route('/:objectId').delete(userController.deleteUser);
 
 module.exports = router;

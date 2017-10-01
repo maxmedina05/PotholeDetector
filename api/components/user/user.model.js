@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+/* global Promise */
 /**
  * @swagger
  * definition:
@@ -18,24 +18,31 @@ const UserSchema = new mongoose.Schema({
   googleId: String,
   name: String,
   email: String,
-  token: String
+  token: String,
+  expire: Date
 }, {
   timestamps: true
 });
 
-UserSchema.statics.findOrCreate = function(filters, cb) {
+UserSchema.statics.findOrCreate = function(filters) {
   let User = this;
-  this.find(filters, function(err, results) {
-    if (results.length == 0) {
-      let newUser = new User();
-      newUser.googleId = filters.googleId;
-      newUser.save(function(err, doc) {
-        cb(err, doc);
-      });
-    } else {
-      cb(err, results[0]);
-    }
-  })
+  return new Promise((resolve, reject) => {
+    this.find(filters, function(err, results) {
+      if (results.length == 0) {
+        let newUser = new User();
+        newUser.googleId = filters.googleId;
+        newUser.save(function(err, doc) {
+          if(err) {
+            reject(err);
+          }
+          resolve(doc);
+        });
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+
 }
 
 module.exports = mongoose.model('User', UserSchema);

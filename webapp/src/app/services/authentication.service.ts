@@ -20,5 +20,6 @@ export class AuthenticationService {
     return this.http.post(`${environment.API_BASE_URL}/authenticate`, body)
       .toPromise()
       .then(response => response.json())
+      .catch(err => console.log(err))
   }
 }

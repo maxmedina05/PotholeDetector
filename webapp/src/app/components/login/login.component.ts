@@ -30,15 +30,23 @@ export class LoginComponent implements OnInit {
   }
 
   onSignIn(googleUser) {
+    console.log(googleUser);
+
     let profile = googleUser.getBasicProfile();
     let id_token = googleUser.getAuthResponse().id_token;
     this.authService.login(id_token)
       .then(res => {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('name', res.data.user.name);
-        localStorage.setItem('email', res.data.user.email);
 
-        this.router.navigate(['/map']);
+        if(res.success) {
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('name', res.data.user.name);
+          localStorage.setItem('email', res.data.user.email);
+
+          this.router.navigate(['/map']);
+        } else {
+          console.log('login failed!');
+        }
+
       });
   }
 
