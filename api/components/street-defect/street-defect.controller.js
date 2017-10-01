@@ -16,7 +16,7 @@ function addStreetDefect(req, res) {
 
     let newStreetDefect = new StreetDefect({
       location: {
-        coordinates: [req.body.latitude, req.body.longitude],
+        coordinates: [ req.body.longitude, req.body.latitude ],
         type: 'Point'
       }
     });
@@ -41,7 +41,7 @@ function getStreetDefects(req, res) {
     let lng = (req.query.lng) ? req.query.lng : -69.931229;
     let radix = (req.query.radix) ? req.query.radix : 50;
 
-    
+
     StreetDefect.find({
         location: {
             $nearSphere: {

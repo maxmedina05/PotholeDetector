@@ -54,7 +54,7 @@ router.route('/').get(streetDefectController.getStreetDefects);
  *         schema:
  *           $ref: '#/definitions/ErrorResponse'
  */
-router.route('/').post( passport.authenticate('bearer', { session: false }), streetDefectController.addStreetDefect);
+router.route('/').post(streetDefectController.addStreetDefect);
 
 router.route('/:objectId').get(streetDefectController.getStreetDefect);
 router.route('/:objectId').put(streetDefectController.updateStreetDefect);
