@@ -14,10 +14,10 @@ export class MapComponent implements OnInit {
   @ViewChild('map') mapContainer: ElementRef;
   private mapObject: any;
   private streetDefectsMarkers = [];
-  private self: this;
   private centerMarker: any;
   private centerPosition = { lat: 18.460497, lng: -69.928690 };
   private refreshMarkersTimeout: any;
+  private maxDistance = 50;
 
   constructor(private streetDefectService: StreetDefectService) { }
 
@@ -36,7 +36,7 @@ export class MapComponent implements OnInit {
     this.mapObject.addListener('click', this.onMapClick.bind(this));
     this.mapObject.addListener('center_changed', this.onCenterChanged.bind(this));
 
-    this.streetDefectService.getStreetDefects(this.centerPosition.lat, this.centerPosition.lng)
+    this.streetDefectService.getStreetDefects(this.centerPosition.lat, this.centerPosition.lng, this.maxDistance)
       .then(streetDefects => {
         this.loadStreetDefectsToMap(streetDefects);
       });
@@ -56,35 +56,25 @@ export class MapComponent implements OnInit {
   }
 
   private clearMarkers() {
-    for(let idx in this.streetDefectsMarkers) {
+    for (let idx in this.streetDefectsMarkers) {
       let marker = this.streetDefectsMarkers[idx];
       marker.setMap(null);
     }
   }
 
   private onMapClick(event) {
-    // let lat = this.mapObject.getCenter().lat();
-    // let lng = this.mapObject.getCenter().lng();
-    // this.clearMarkers();
-
-    // this.streetDefectService.getStreetDefects(lat, lng)
-    //   .then(streetDefects => {
-    //     this.loadStreetDefectsToMap(streetDefects);
-    //   });
   }
 
   private onCenterChanged() {
     console.log("onCenterChanged");
     let lat = this.mapObject.getCenter().lat();
     let lng = this.mapObject.getCenter().lng();
-
+    let radix = this.maxDistance;
     this.centerMarker.setPosition(this.mapObject.getCenter());
     this.clearMarkers();
-
     clearTimeout(this.refreshMarkersTimeout);
-
     this.refreshMarkersTimeout = setTimeout(() => {
-      this.streetDefectService.getStreetDefects(lat, lng)
+      this.streetDefectService.getStreetDefects(lat, lng, radix)
         .then(streetDefects => {
           this.loadStreetDefectsToMap(streetDefects);
         });

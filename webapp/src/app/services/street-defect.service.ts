@@ -14,8 +14,8 @@ export class StreetDefectService {
 
   }
 
-  getStreetDefects(lat: number, lng: number): Promise<StreetDefect[]> {
-    return this.http.get(`${environment.API_BASE_URL}/street-defects?lat=${lat}&lng=${lng}`)
+  getStreetDefects(lat: number, lng: number, radix: number): Promise<StreetDefect[]> {
+    return this.http.get(`${environment.API_BASE_URL}/street-defects?lat=${lat}&lng=${lng}&radix=${radix}`)
       // .map(response => response.json().data as StreetDefect[]);
       .toPromise()
       .then(response => response.json().data as StreetDefect[])
