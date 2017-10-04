@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
-const cors = require('cors')
+// const cors = require('cors')
 
 const PORT = process.env.PORT || 5099;
 

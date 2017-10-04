@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSignIn(googleUser) {
-    console.log(googleUser);
+    // console.log(googleUser);
 
     let profile = googleUser.getBasicProfile();
     let id_token = googleUser.getAuthResponse().id_token;
