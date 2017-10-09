@@ -15,7 +15,7 @@ declare global {
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
 
@@ -30,18 +30,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSignIn(googleUser) {
-    // console.log(googleUser);
-
     let profile = googleUser.getBasicProfile();
     let id_token = googleUser.getAuthResponse().id_token;
     this.authService.login(id_token)
       .then(res => {
-
-        if(res.success) {
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('name', res.data.user.name);
-          localStorage.setItem('email', res.data.user.email);
-
+        if (res.success) {
           this.router.navigate(['/map']);
         } else {
           console.log('login failed!');

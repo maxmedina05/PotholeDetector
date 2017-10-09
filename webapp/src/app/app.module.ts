@@ -19,6 +19,8 @@ import { AuthInterceptor } from './auth.interceptor';
 
 import { StreetDefectService } from './services/street-defect.service';
 import { AuthenticationService } from './services/authentication.service';
+import { AuthGuard } from './services/auth-guard.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { AuthenticationService } from './services/authentication.service';
       multi: true
     },
     StreetDefectService,
-    AuthenticationService
+    AuthenticationService,
+    AuthService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

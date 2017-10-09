@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AuthenticationService } from '../../services/authentication.service';
 declare let gapi: any;
 
 @Component({
@@ -9,7 +9,7 @@ declare let gapi: any;
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthenticationService) { }
 
   ngOnInit() {
   }
@@ -18,6 +18,7 @@ export class NavComponent implements OnInit {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut()
       .then(() => {
+        this.authService.logout();
         console.log('User signed out.');
       });
   }
