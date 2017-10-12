@@ -22,7 +22,8 @@ const StreetDefectSchema = new mongoose.Schema({
   location: {
     type: { type: String },
     coordinates: [Number]
-  }
+  },
+  deleted: Boolean
 }, {
   timestamps: true
 });
