@@ -45,7 +45,8 @@ function addStreetDefect(req, res) {
           location: {
             coordinates: [lng, lat],
             type: 'Point'
-          }
+          },
+          deleted: false
         });
 
         return newStreetDefect.save().then(result => {
