@@ -1,6 +1,6 @@
 const StreetDefect = require('./street-defect.model');
 const ResponseHandler = require('../response-handler');
-const MIN_DISTANCE = 10;
+const MIN_DISTANCE = 40;
 
 function addStreetDefect(req, res) {
   let lat = req.body.latitude;
