@@ -1,5 +1,6 @@
 const StreetDefect = require('./street-defect.model');
 const ResponseHandler = require('../response-handler');
+const jwt = require('jsonwebtoken');
 const MIN_DISTANCE = 40;
 
 function addStreetDefect(req, res) {
@@ -11,14 +12,13 @@ function addStreetDefect(req, res) {
     err.status = 400;
     throw err;
   }
-  // if(!req.body.userId) {
-  //   let err = ResponseHandler.errorResponse('Missing userId as parameters');
-  //   err.status = 400;
-  //   throw err;
-  // }
-  //
+
+  let token = req.headers.authorization.split(' ')[1];
+  let googleId = token.decode(token).sub;
+
   StreetDefect.update(
     {
+      googleId: googleId,
       location: {
         $nearSphere: {
           $geometry: {

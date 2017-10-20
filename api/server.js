@@ -5,6 +5,7 @@ const express = require('express');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 // const cors = require('cors')
+const jwt = require('jsonwebtoken');
 
 const PORT = process.env.PORT || 5099;
 

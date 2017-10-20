@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
  *         type: number
  */
 const StreetDefectSchema = new mongoose.Schema({
-  userId: String,
+  googleId: String,
   xMean: Number,
   yMean: Number,
   zMean: Number,
