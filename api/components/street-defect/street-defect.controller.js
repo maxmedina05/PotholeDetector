@@ -14,11 +14,10 @@ function addStreetDefect(req, res) {
   }
 
   let token = req.headers.authorization.split(' ')[1];
-  let googleId = token.decode(token).sub;
+  let googleId = jwt.decode(token).sub;
 
   StreetDefect.update(
     {
-      googleId: googleId,
       location: {
         $nearSphere: {
           $geometry: {
@@ -31,8 +30,9 @@ function addStreetDefect(req, res) {
     },
     {
       $set: {
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
+      $inc: { count: 1 }
     },
     {
         multi: true
@@ -42,6 +42,8 @@ function addStreetDefect(req, res) {
       // console.log(result);
       if (result.nModified === 0) {
         let newStreetDefect = new StreetDefect({
+          googleId: googleId,
+          count: 1,
           location: {
             coordinates: [lng, lat],
             type: 'Point'

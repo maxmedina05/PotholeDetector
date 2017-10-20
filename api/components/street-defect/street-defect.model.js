@@ -19,6 +19,7 @@ const StreetDefectSchema = new mongoose.Schema({
   xStd: Number,
   yStd: Number,
   zStd: Number,
+  count: Number,
   location: {
     type: { type: String },
     coordinates: [Number]
