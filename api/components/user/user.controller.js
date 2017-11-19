@@ -4,10 +4,8 @@ const ResponseHandler = require('../response-handler');
 function addUser(req, res) {
   let model = req.body;
   let newUser = User({
-    firstName: model.firstName,
-    lastName: model.lastName,
+    name: model.name,
     email: model.email,
-    password: model.password
   });
 
   newUser.save()
@@ -44,21 +42,21 @@ function getUsers(req, res) {
 }
 
 function updateUser(req, res) {
-  let query = {
-    _id: req.params.objectId
-  };
-  let update = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName
-  };
+  let model = req.body;
 
-  User.findOneAndUpdate(query, update).exec()
-    .then(result => {
-      res.json(ResponseHandler.generalResponse('User', true, '', result));
-    })
-    .catch(err => {
-      res.status(500).json(ResponseHandler.errorResponse(err));
-    });
+  User.findOrCreate(model)
+    .then(result => {console.log(result)})
+    .catch(err => console.log(err))
+
+  res.send('okay');
+
+  // User.findOneAndUpdate(query, update).exec()
+  //   .then(result => {
+  //     res.json(ResponseHandler.generalResponse('User', true, '', result));
+  //   })
+  //   .catch(err => {
+  //     res.status(500).json(ResponseHandler.errorResponse(err));
+  //   });
 }
 
 function deleteUser(req, res) {

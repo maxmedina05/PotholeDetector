@@ -50,7 +50,7 @@ router.route('/').get(userController.getUsers);
  *           $ref: '#/definitions/ErrorResponse'
  */
 router.route('/:objectId').get(userController.getUser);
-router.route('/:objectId').put(userController.updateUser);
-router.route('/:objectId').delete(userController.deleteUser);
+router.route('/').put(userController.updateUser);
+// router.route('/:objectId').delete(userController.deleteUser);
 
 module.exports = router;

@@ -24,21 +24,32 @@ const UserSchema = new mongoose.Schema({
   timestamps: true
 });
 
-UserSchema.statics.findOrCreate = function(filters) {
+UserSchema.statics.findOrCreate = function(filter) {
   let User = this;
   return new Promise((resolve, reject) => {
-    this.find(filters, function(err, results) {
+    this.find(filter.googleId || filter, function(err, results) {
       if (results.length == 0) {
         let newUser = new User();
-        newUser.googleId = filters.googleId;
+        newUser.googleId = filter.googleId;
+        newUser.name = filter.name;
+        newUser.email = filter.email;
+
         newUser.save(function(err, doc) {
-          if(err) {
+          if (err) {
             reject(err);
           }
           resolve(doc);
         });
       } else {
-        resolve(results[0]);
+        let curUser = results[0];
+        curUser.name = (filter.name) ? filter.name : curUser.name;
+        curUser.email = (filter.email) ? filter.email : curUser.email;
+        curUser.save(function(err, doc) {
+          if (err) {
+            reject(err);
+          }
+          resolve(doc);
+        });
       }
     });
   });
